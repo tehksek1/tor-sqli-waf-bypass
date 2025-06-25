@@ -1,0 +1,22 @@
+# 🛡️ Tor SQLi WAF Bypass Tool
+
+This script automates the detection of **time-based blind SQL injection** via HTTP headers while **bypassing WAFs** using:
+
+- 💣 Obfuscated payloads (`/**/`, random casing, comments)
+- 🧢 Header fuzzing (`X-Forwarded-For`, `X-Remote-IP`, etc.)
+- 🔄 Tor routing (`socks5h://127.0.0.1:9050`) to evade rate-limits
+- ⏱️ Response time analysis to confirm blind SQLi
+
+---
+
+## ⚙️ Requirements
+
+- Python 3.6+
+- Tor (running locally)
+- `requests[socks]`
+
+Install dependencies:
+
+```bash
+sudo apt install tor
+pip install requests[socks]
