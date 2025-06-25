@@ -1,0 +1,17 @@
+📦 Example Output
+yaml
+Copy
+Edit
+[+] Testing header: X-Remote-IP
+    Payload: '||SLEEP(5)--
+    Status: 200
+    Time: 6.21s
+🚨 Possible time-based SQLi via X-Remote-IP!
+🧪 Vulnerability Class
+VRT: Server-Side Injection > SQL Injection
+
+Type: Time-Based Blind SQLi via HTTP Headers
+
+🙏 Ethical Use Only
+This script is intended for educational and authorized security testing only.
+Never use it against systems you don't have permission to test.
