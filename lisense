@@ -1,0 +1,15 @@
+📄 License
+MIT License – Free for public use with attribution.
+
+yaml
+Copy
+Edit
+
+---
+
+## ✅ Step 5: Push Everything to GitHub
+
+```bash
+git add README.md
+git commit -m "Added README and documentation"
+git push origin main
