@@ -1,0 +1,19 @@
+Start Tor:
+
+bash
+Edit
+sudo systemctl start tor
+🚀 Usage
+bash
+Edit
+python3 tor_waf_bypass_sqli.py
+
+  The script will:
+
+Send a series of obfuscated SQLi payloads to the target
+
+Rotate through headers like X-Originating-IP, X-Client-IP
+
+Use Tor SOCKS proxy to avoid WAF 429 rate-limiting
+
+Highlight any delayed responses (>5s) that may indicate SQLi
